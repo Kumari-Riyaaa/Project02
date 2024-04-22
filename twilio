@@ -1,0 +1,30 @@
+const express = require('express');
+const accountSid = 'AC9586097faa9aad7ddeb632ad74a54aac';
+const authToken = '[a7a4e819850f4b2b46f98b46d343eb51]';
+const twilioPhoneNumber = '+14155238886';
+const webhookUrl = 'https://project02-nk46w05gi-kumari-riyas-projects.vercel.app'; 
+const client = require('twilio')(accountSid, authToken);
+
+    app.post('/webhook', async (req, res) => {
+    const incomingMessage = req.body.Body;
+    const senderNumber = req.body.From;
+
+    // Define the message details
+    const messageDetails = {
+        body: incomingMessage, // Use the incoming message as the body
+        from: 'whatsapp:+14155238886', // Your Twilio WhatsApp number
+        to: senderNumber // Use the sender number as the recipient
+    };
+
+    // Send the message
+    client.messages
+        .create(messageDetails)
+        .then(message => {
+            console.log(message.sid);
+            res.status(200).end();
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).end();
+        });
+});
